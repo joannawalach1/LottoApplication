@@ -1,4 +1,12 @@
 package com.juniorjavaready.domain.numberreceiver;
 
-public class HashGenerator {
-}
+import java.util.Set;
+import java.util.UUID;
+
+public class HashGenerator implements HashGenerable {
+        @Override
+        public String generateHash(Set<Integer> numberFromUser) {
+            return UUID.randomUUID().toString();
+        }
+    }
+

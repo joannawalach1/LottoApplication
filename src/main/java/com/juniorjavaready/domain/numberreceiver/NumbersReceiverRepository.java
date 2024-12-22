@@ -5,7 +5,8 @@ import java.util.List;
 
 public class NumbersReceiverRepository {
     List<Integer> numbers = new ArrayList<>();
-    public void inputNumbers(int number) {
-
+    public List<Integer> inputNumbers(int number) {
+       numbers.add(number);
+       return new ArrayList<>(numbers);
     }
 }

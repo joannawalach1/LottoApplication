@@ -2,7 +2,9 @@ package com.juniorjavaready.domain.numberreceiver;
 
 import lombok.Builder;
 
-import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+
 @Builder
-public record SixNumbers(String hash, List<Integer> numberFromUser) {
+public record SixNumbers(UUID hash, Set<Integer> numberFromUser) {
 }
