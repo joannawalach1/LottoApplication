@@ -9,6 +9,7 @@ class NumberValidator {
 
     public boolean validateNumbers(Set<Integer> numbers) {
         return numbers.stream()
+                .filter(number -> number != null)
                 .filter(number -> number >= MINIMAL_RANGE)
                 .filter(number -> number <= MAXIMUM_RANGE)
                 .count() == MAX_NUMBERS_FROM_USER;

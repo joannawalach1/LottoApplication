@@ -1,12 +1,8 @@
 package com.juniorjavaready.domain.numberreceiver;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-class NumbersReceiverRepository {
-    List<Integer> numbers = new ArrayList<>();
-    public List<Integer> inputNumbers(int number) {
-       numbers.add(number);
-       return new ArrayList<>(numbers);
-    }
+public interface NumbersReceiverRepository {
+      List<Ticket> inputNumbers(Set<Integer> numbers);
 }

@@ -26,7 +26,7 @@ public class NumberReceiverFacadeTest {
 
 
     @Test
-    public void shouldReturnSixNumbersListIfUserGaveSixNumbers() {
+    public void shouldReturnSixNumbersListIfUserGaveSixNumbers() throws InvalidNumbersException {
         //given
         Set<Integer> numberFromUser = Set.of(1, 2, 3, 4, 5, 6);
         //when
@@ -41,7 +41,7 @@ public class NumberReceiverFacadeTest {
         Set<Integer> sixNumbers = Set.of(1, 2, 3, 4, 5);
         //when
         //then
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(InvalidNumbersException.class, () -> {
             numberReceiverFacade.inputNumbers(sixNumbers);
         });
     }
@@ -52,7 +52,7 @@ public class NumberReceiverFacadeTest {
         Set<Integer> sixNumbers = Set.of(1, 2, 3, 4, 5, 6, 7);
         //when
         //then
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(InvalidNumbersException.class, () -> {
             numberReceiverFacade.inputNumbers(sixNumbers);
         });
     }
@@ -63,7 +63,7 @@ public class NumberReceiverFacadeTest {
         Set<Integer> sixNumbers = Set.of();
         //when
         //then
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(InvalidNumbersException.class, () -> {
             numberReceiverFacade.inputNumbers(sixNumbers);
         });
     }
@@ -74,7 +74,7 @@ public class NumberReceiverFacadeTest {
         Set<Integer> sixNumbers = Set.of(1, 2, 3000, 4, 5);
         //when
         //then
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(InvalidNumbersException.class, () -> {
             numberReceiverFacade.inputNumbers(sixNumbers);
         });
     }
@@ -141,7 +141,7 @@ public class NumberReceiverFacadeTest {
     }
 
     @Test
-    public void shouldSaveTicketWhenInputNumbersIsCalled() {
+    public void shouldSaveTicketWhenInputNumbersIsCalled() throws InvalidNumbersException {
         //given
         Set<Integer> sixNumbers = Set.of(1, 2, 3, 4, 5, 6);
         //when
@@ -189,7 +189,19 @@ public class NumberReceiverFacadeTest {
         //then
         assertFalse("Number cannot be validated", generatedBoolean);
     }
+
+    @Test
+    public void shouldThrowExceptionIfUserGivesNull() {
+        //given
+        Set<Integer> sixNumbers = null;
+        //then
+        assertThrows(InvalidNumbersException.class, () -> {
+            numberReceiverFacade.inputNumbers(sixNumbers);
+        });
+    }
 }
+
+
 
 
 
