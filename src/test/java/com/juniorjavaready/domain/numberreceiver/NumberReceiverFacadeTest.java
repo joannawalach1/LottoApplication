@@ -199,6 +199,31 @@ public class NumberReceiverFacadeTest {
             numberReceiverFacade.inputNumbers(sixNumbers);
         });
     }
+
+    @Test
+    public void shouldGenerateDrawDateAtExactMidday() {
+        //given
+        DrawDateGenerator drawDateGenerator = new DrawDateGenerator();
+        Set<Integer> sixNumbers = Set.of(1, 2, 3, 4, 5, 6);
+        //when
+        LocalDateTime drawDate = drawDateGenerator.generateDrawDate();
+        //then
+        assertEquals("Draw date should be at 12:00 PM", 12, drawDate.getHour());
+        assertEquals("Draw date should be in the future", true, drawDate.isAfter(LocalDateTime.now()));
+    }
+
+    @Test
+    public void shouldReturnCorrectResultDto() throws InvalidNumbersException {
+        //given
+        Set<Integer> sixNumbers = Set.of(1, 2, 3, 4, 5, 6);
+        //when
+        InputNumberResultDto result = numberReceiverFacade.inputNumbers(sixNumbers);
+        //then
+        assertEquals("Numbers should match", sixNumbers, result.userNumbers());
+        assertNotNull("Hash should not be null", result.hash());
+        assertNotNull("Draw date should not be null", result.drawDate());
+    }
+
 }
 
 
