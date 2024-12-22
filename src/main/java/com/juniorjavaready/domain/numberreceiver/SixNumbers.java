@@ -6,5 +6,5 @@ import java.util.Set;
 import java.util.UUID;
 
 @Builder
-public record SixNumbers(UUID hash, Set<Integer> numberFromUser) {
+public record SixNumbers(String hash, Set<Integer> numberFromUser) {
 }
