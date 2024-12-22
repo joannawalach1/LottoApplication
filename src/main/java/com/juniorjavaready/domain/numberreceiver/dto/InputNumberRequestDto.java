@@ -5,5 +5,5 @@ import lombok.Builder;
 
 import java.util.Set;
 @Builder
-public record InputNumberRequestDto(Set<Integer> inputNumbers) {
+public record InputNumberRequestDto(Set<Integer> numbers) {
 }

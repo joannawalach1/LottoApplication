@@ -14,11 +14,16 @@ import java.time.LocalDateTime;
 @RestController
 @RequestMapping("/inputNumbers")
 public class NumberReceiverController {
+    private static int ticketCounter = 0;
     @PostMapping
     public ResponseEntity<NumberReceiverResponseDto> inputNumbers(@RequestBody InputNumberRequestDto inputNumbers) {
+        String ticketId = "TICKET_" + (++ticketCounter);
         NumberReceiverResponseDto build = NumberReceiverResponseDto.builder()
                 .ticketDto(TicketDto.builder()
-                        .drawDate(LocalDateTime.of(2023, 12, 25, 12, 0, 0))
+                        .ticketId(ticketId)
+                        .drawDate(LocalDateTime.now().plusDays(3))
+                        .numbersFromUser(inputNumbers.numbers())
+                        .message("Ticket received successfully")
                         .build())
                 .build();
         return ResponseEntity.ok(build);
