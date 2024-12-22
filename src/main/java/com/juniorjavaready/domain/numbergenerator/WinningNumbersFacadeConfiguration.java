@@ -1,10 +1,14 @@
 package com.juniorjavaready.domain.numbergenerator;
 
 import com.juniorjavaready.domain.numberreceiver.NumberReceiverFacade;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.Set;
 
 @Configuration
+@RequiredArgsConstructor
 public class WinningNumbersFacadeConfiguration {
 
 
@@ -24,6 +28,6 @@ public class WinningNumbersFacadeConfiguration {
     @Bean
     public NumberGeneratorFacade numberGeneratorFacade(WinningNumbersGenerator winningNumbersGenerator) {
         WinningNumberValidator winningNumberValidator = new WinningNumberValidator();
-        return new NumberGeneratorFacade(winningNumbersGenerator, winningNumberValidator, numberReceiverFacade, winningNumberRepository);
+        return new NumberGeneratorFacade(winningNumbersGenerator, winningNumberValidator, winningNumberRepository, numberReceiverFacade);
     }
 }

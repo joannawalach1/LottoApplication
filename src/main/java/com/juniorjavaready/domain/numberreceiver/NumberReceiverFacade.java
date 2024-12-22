@@ -4,7 +4,9 @@ import com.juniorjavaready.domain.numberreceiver.dto.InputNumberResultDto;
 import com.juniorjavaready.domain.numberreceiver.dto.TicketDto;
 import lombok.RequiredArgsConstructor;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Set;
 
@@ -37,6 +39,12 @@ public class NumberReceiverFacade {
         return allTicketsByDrawDate.stream()
                 .map(TicketMapper::toDto)
                 .toList();
+    }
+
+    public LocalDateTime getNextDrawDate() {
+        LocalDateTime today = LocalDateTime.now();
+        LocalDateTime nextSaturday = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
+        return nextSaturday.withHour(12).withMinute(0).withSecond(0).withNano(0);
     }
 }
 

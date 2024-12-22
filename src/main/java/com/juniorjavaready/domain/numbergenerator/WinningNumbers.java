@@ -1,6 +1,10 @@
 package com.juniorjavaready.domain.numbergenerator;
 
-import java.time.LocalDateTime;
+import lombok.Builder;
 
-public record WinningNumbers(LocalDateTime date, SixRandomNumbersDto winningNumbers) {
+import java.time.LocalDateTime;
+import java.util.Set;
+
+@Builder
+public record WinningNumbers(LocalDateTime date, Set<Integer> winningNumbers) {
 }
