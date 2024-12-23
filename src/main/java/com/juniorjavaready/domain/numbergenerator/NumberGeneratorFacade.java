@@ -2,10 +2,8 @@ package com.juniorjavaready.domain.numbergenerator;
 
 import com.juniorjavaready.domain.numbergenerator.dto.WinningNumberDto;
 import com.juniorjavaready.domain.numberreceiver.NumberReceiverFacade;
-import com.juniorjavaready.infrastructure.numbergenerator.http.WinningNumbersFetcher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
