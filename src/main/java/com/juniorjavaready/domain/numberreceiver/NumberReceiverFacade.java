@@ -1,5 +1,6 @@
 package com.juniorjavaready.domain.numberreceiver;
 
+import com.juniorjavaready.domain.numbergenerator.InvalidWinningNumbersException;
 import com.juniorjavaready.domain.numberreceiver.dto.InputNumberResultDto;
 import com.juniorjavaready.domain.numberreceiver.dto.TicketDto;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +18,12 @@ public class NumberReceiverFacade {
     private final HashGenerable hashGenerator;
     private final TicketRepository ticketRepository;
 
-    public InputNumberResultDto inputNumbers(Set<Integer> numbers) throws InvalidNumbersException {
+    public InputNumberResultDto inputNumbers(Set<Integer> numbers) throws InvalidWinningNumbersException {
         if (numbers == null) {
-            throw new InvalidNumbersException("Numbers cannot be null.");
+            throw new InvalidWinningNumbersException("Numbers cannot be null.");
         }
         if (!numberValidator.validateNumbers(numbers)) {
-            throw new InvalidNumbersException("Invalid numbers provided.");
+            throw new InvalidWinningNumbersException("Invalid numbers provided.");
         }
         LocalDateTime drawDate = drawDateGenerator.generateDrawDate();
         String hash = hashGenerator.generateHash(numbers);

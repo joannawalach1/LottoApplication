@@ -1,5 +1,6 @@
 package com.juniorjavaready.domain.numbergenerator;
 
+import java.util.List;
 import java.util.Set;
 
 public class WinningNumberValidator {
@@ -8,10 +9,11 @@ public class WinningNumberValidator {
     private static final int MAX_NUMBERS_FROM_USER = 6;
 
 
-    public boolean validateWinningNumbers(Set<Integer> numbers) {
-        return numbers.stream()
+    public void validateWinningNumbers(Set<Integer> numbers) {
+        numbers.stream()
+                .limit(MAX_NUMBERS_FROM_USER)
                 .filter(number -> number >= MINIMAL_RANGE)
-                .filter(number -> number <= MAXIMUM_RANGE)
-                .count() == MAX_NUMBERS_FROM_USER;
+                .filter(number -> number <= MAXIMUM_RANGE);
+
     }
 }

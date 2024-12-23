@@ -1,4 +1,4 @@
 package com.juniorjavaready.domain;
 
-public class NumberGeneratorFacade {
+public class ResultCheckerFacade {
 }
