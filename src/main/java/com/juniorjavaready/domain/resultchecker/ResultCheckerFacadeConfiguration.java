@@ -21,7 +21,7 @@ public class ResultCheckerFacadeConfiguration {
 
             @Override
             public List<Player> saveAll(List<Player> players) {
-                return List.of();
+                return players;
             }
 
             @Override

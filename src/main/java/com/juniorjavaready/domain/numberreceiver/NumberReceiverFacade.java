@@ -7,12 +7,14 @@ import lombok.RequiredArgsConstructor;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Set;
 
 @RequiredArgsConstructor
 public class NumberReceiverFacade {
+    private static final LocalTime DRAW_DATE = LocalTime.of(12, 0, 0);
     private final NumberValidator numberValidator;
     private final DrawDateGenerator drawDateGenerator;
     private final HashGenerable hashGenerator;
@@ -44,9 +46,13 @@ public class NumberReceiverFacade {
 
     public LocalDateTime getNextDrawDate() {
         LocalDateTime today = LocalDateTime.now();
+
         LocalDateTime nextSaturday = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
+
         return nextSaturday.withHour(12).withMinute(0).withSecond(0).withNano(0);
     }
+
+
 }
 
 

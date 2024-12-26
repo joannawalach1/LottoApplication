@@ -1,6 +1,5 @@
 package com.juniorjavaready.domain.numbergenerator;
 
-import java.util.List;
 import java.util.Set;
 
 public class WinningNumberValidator {

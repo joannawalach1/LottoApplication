@@ -14,7 +14,6 @@ public class WinningNumberGeneratorTestImpl implements WinningNumbersGenerator {
         this.generatedNumbers = generatedNumbers;
     }
 
-    @Override
     public Set<Integer> generateWinningNumbers() {
         return generatedNumbers;
     }
