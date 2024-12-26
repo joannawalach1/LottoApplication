@@ -34,7 +34,7 @@ public class WinningNumberMapper {
 
         Set<Integer> allWinningNumbers = winningNumbers.winningNumbers();
 
-        OffsetDateTime drawDate = OffsetDateTime.from(winningNumbers.date());
+        LocalDateTime drawDate = winningNumbers.date();
 
         return allWinningNumbers.stream()
                 .map(number -> WinningNumberDto.builder()

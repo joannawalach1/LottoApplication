@@ -202,15 +202,15 @@ public class NumberReceiverFacadeTest {
     }
 
     @Test
-    public void shouldGenerateDrawDateAtExactMidday() {
+    public void shouldGenerateNextDrawDate() {
         //given
         DrawDateGenerator drawDateGenerator = new DrawDateGenerator();
         Set<Integer> sixNumbers = Set.of(1, 2, 3, 4, 5, 6);
         //when
         LocalDateTime drawDate = drawDateGenerator.generateDrawDate();
+        LocalDateTime nextDrawDate = drawDateGenerator.generateDrawDate();
         //then
-        assertEquals("Draw date should be at 12:00 PM", 12, drawDate.getHour());
-        assertEquals("Draw date should be in the future", true, drawDate.isAfter(LocalDateTime.now()));
+        assertEquals("Draw date should be in the future", LocalDateTime.of(2024, 12, 28, 12, 0, 0), nextDrawDate);
     }
 
     @Test
