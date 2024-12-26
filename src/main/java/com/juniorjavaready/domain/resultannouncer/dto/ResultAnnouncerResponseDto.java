@@ -1,4 +1,6 @@
 package com.juniorjavaready.domain.resultannouncer.dto;
 
-public class ResultAnnouncerResponseDto {
+public record ResultAnnouncerResponseDto(  ResponseDto responseDto,
+                                           String message) {
+
 }

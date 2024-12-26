@@ -3,8 +3,8 @@ package com.juniorjavaready.domain.resultannouncer;
 import java.util.Optional;
 
 public interface ResponseRepository {
-    Optional<ResultResponse> findByHash(String hash);
+    ResultResponse save(ResultResponse resultResponse);
     boolean existsById(String hash);
-
-    void save(ResultResponse resultResponse);
+    Optional<ResultResponse> findById(String hash);
 }
+

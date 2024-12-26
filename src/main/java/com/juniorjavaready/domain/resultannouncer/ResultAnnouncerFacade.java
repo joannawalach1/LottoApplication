@@ -4,49 +4,62 @@ import com.juniorjavaready.domain.resultannouncer.dto.ResponseDto;
 import com.juniorjavaready.domain.resultannouncer.dto.ResultAnnouncerResponseDto;
 import com.juniorjavaready.domain.resultchecker.ResultCheckerFacade;
 import com.juniorjavaready.domain.resultchecker.dto.ResultDto;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 
 import java.time.Clock;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Optional;
 
-@RequiredArgsConstructor
+import static com.juniorjavaready.domain.resultannouncer.MessageResponse.*;
+
+@AllArgsConstructor
 public class ResultAnnouncerFacade {
-    private final ResultCheckerFacade resultCheckerFacade;
-    private final ResponseRepository responseRepository;
-    private final Clock clock;
-
-    public ResultAnnouncerResponseDto checkResults(String hash) {
-        if (responseRepository.existsById(hash)) {
-            Optional<ResultResponse> resultResponse = responseRepository.findByHash(hash)
-                    .orElseThrow(() -> new ResultResponseNotFoundException("Result with id" + hash + "not found"));
-            return new ResultAnnouncerResponseDto(ResultMapper.mapToDto(resultResponse), ALREADY_CHECKED.info);
+public static final LocalTime RESULTS_ANNOUNCEMENT_TIME = LocalTime.of(12, 0).plusMinutes(5);
+private final ResultCheckerFacade resultCheckerFacade;
+private final ResponseRepository responseRepository;
+private final Clock clock;
+public ResultAnnouncerResponseDto checkResult(String hash) {
+    if (responseRepository.existsById(hash)) {
+        Optional<ResultResponse> resultResponseCached = responseRepository.findById(hash);
+        if(resultResponseCached.isPresent()){
+            return new ResultAnnouncerResponseDto(ResultMapper.mapToDto(resultResponseCached.get()), ALREADY_CHECKED.info);
         }
-        ResultDto resultDto = resultCheckerFacade.findByHash(hash);
-
-        if (resultDto == null) {
-            return new ResultAnnouncerResponseDto(null, HASH_DOES_NOT_EXISTS_MESSAGE.info);
-        }
-        ResponseDto responseDto = buildResponseDto(resultDto);
-        responseRepository.save(buildResponse(responseDto));
-        if ( responseRepository.existsById(hash) && !isAfterResultAnnouncementTime(resultDto)) {
-            return new ResultAnnouncerResponseDto(responseDto, WAIT_MESSAGE.info);
-        }
-        if (resultCheckerFacade.findByHash(hash).isWinner()) {
-            return new ResultAnnouncerResponseDto(responseDto, WIN_MESSAGE.info);
-        }
-        return new ResultAnnouncerResponseDto(responseDto, LOOSE_MESSAGE.info);
-
     }
-
-    private static ResultResponse buildResponse(ResponseDto responseDto) {
-
+    ResultDto resultDto = resultCheckerFacade.findByHash(hash);
+    if (resultDto == null) {
+        return new ResultAnnouncerResponseDto(null, HASH_DOES_NOT_EXIST_MESSAGE.info);
     }
-
-    private static ResponseDto buildResponseDto(ResultDto resultDto) {
-
+    ResponseDto responseDto = buildResponseDto(resultDto);
+    responseRepository.save(buildResponse(responseDto));
+    if (responseRepository.existsById(hash) && !isAfterResultAnnouncementTime(resultDto)) {
+        return new ResultAnnouncerResponseDto(responseDto, WAIT_MESSAGE.info);
     }
-
-    private boolean isAfterResultAnnouncementTime(ResultDto resultDto) {
-
+    if (resultCheckerFacade.findByHash(hash).isWinner()) {
+        return new ResultAnnouncerResponseDto(responseDto, WIN_MESSAGE.info);
     }
+    return new ResultAnnouncerResponseDto(responseDto, LOSE_MESSAGE.info);
+}
+private static ResultResponse buildResponse(ResponseDto responseDto) {
+    return ResultResponse.builder()
+            .hash(responseDto.hash())
+            .numbers(responseDto.numbers())
+            .hitNumbers(responseDto.hitNumbers())
+            .drawDate(responseDto.drawDate())
+            .isWinner(responseDto.isWinner())
+            .build();
+}
+private static ResponseDto buildResponseDto(ResultDto resultDto) {
+    return ResponseDto.builder()
+            .hash(resultDto.hash())
+            .numbers(resultDto.numbers())
+            .hitNumbers(resultDto.hitNumbers())
+            .drawDate(resultDto.drawDate())
+            .isWinner(resultDto.isWinner())
+            .build();
+}
+private boolean isAfterResultAnnouncementTime(ResultDto resultDto) {
+    LocalDateTime announcementDateTime = LocalDateTime.of(resultDto.drawDate().toLocalDate(), RESULTS_ANNOUNCEMENT_TIME); //
+    return LocalDateTime.now(clock).isAfter(announcementDateTime);
+}
 }

@@ -1,7 +1,7 @@
 package com.juniorjavaready.domain.resultannouncer;
 
-public class ResultResponseNotFoundException {
-    public ResultResponseNotFoundException(String message) {
-        super();
+public class ResultResponseNotFoundException extends RuntimeException{
+    ResultResponseNotFoundException(String message) {
+        super(message);
     }
 }
