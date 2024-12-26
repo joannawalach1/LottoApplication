@@ -1,5 +1,6 @@
 package com.juniorjavaready.domain.numberreceiver;
 
+import com.juniorjavaready.domain.numbergenerator.InvalidWinningNumbersException;
 import com.juniorjavaready.domain.numberreceiver.dto.InputNumberResultDto;
 import org.junit.Test;
 
@@ -26,7 +27,7 @@ public class NumberReceiverFacadeTest {
 
 
     @Test
-    public void shouldReturnSixNumbersListIfUserGaveSixNumbers() throws InvalidNumbersException {
+    public void shouldReturnSixNumbersListIfUserGaveSixNumbers() throws InvalidWinningNumbersException {
         //given
         Set<Integer> numberFromUser = Set.of(1, 2, 3, 4, 5, 6);
         //when
@@ -41,7 +42,7 @@ public class NumberReceiverFacadeTest {
         Set<Integer> sixNumbers = Set.of(1, 2, 3, 4, 5);
         //when
         //then
-        assertThrows(InvalidNumbersException.class, () -> {
+        assertThrows(InvalidWinningNumbersException.class, () -> {
             numberReceiverFacade.inputNumbers(sixNumbers);
         });
     }
@@ -52,7 +53,7 @@ public class NumberReceiverFacadeTest {
         Set<Integer> sixNumbers = Set.of(1, 2, 3, 4, 5, 6, 7);
         //when
         //then
-        assertThrows(InvalidNumbersException.class, () -> {
+        assertThrows(InvalidWinningNumbersException.class, () -> {
             numberReceiverFacade.inputNumbers(sixNumbers);
         });
     }
@@ -63,7 +64,7 @@ public class NumberReceiverFacadeTest {
         Set<Integer> sixNumbers = Set.of();
         //when
         //then
-        assertThrows(InvalidNumbersException.class, () -> {
+        assertThrows(InvalidWinningNumbersException.class, () -> {
             numberReceiverFacade.inputNumbers(sixNumbers);
         });
     }
@@ -74,7 +75,7 @@ public class NumberReceiverFacadeTest {
         Set<Integer> sixNumbers = Set.of(1, 2, 3000, 4, 5);
         //when
         //then
-        assertThrows(InvalidNumbersException.class, () -> {
+        assertThrows(InvalidWinningNumbersException.class, () -> {
             numberReceiverFacade.inputNumbers(sixNumbers);
         });
     }
@@ -141,7 +142,7 @@ public class NumberReceiverFacadeTest {
     }
 
     @Test
-    public void shouldSaveTicketWhenInputNumbersIsCalled() throws InvalidNumbersException {
+    public void shouldSaveTicketWhenInputNumbersIsCalled() throws InvalidWinningNumbersException {
         //given
         Set<Integer> sixNumbers = Set.of(1, 2, 3, 4, 5, 6);
         //when
@@ -195,25 +196,25 @@ public class NumberReceiverFacadeTest {
         //given
         Set<Integer> sixNumbers = null;
         //then
-        assertThrows(InvalidNumbersException.class, () -> {
+        assertThrows(InvalidWinningNumbersException.class, () -> {
             numberReceiverFacade.inputNumbers(sixNumbers);
         });
     }
 
     @Test
-    public void shouldGenerateDrawDateAtExactMidday() {
+    public void shouldGenerateNextDrawDate() {
         //given
         DrawDateGenerator drawDateGenerator = new DrawDateGenerator();
         Set<Integer> sixNumbers = Set.of(1, 2, 3, 4, 5, 6);
         //when
         LocalDateTime drawDate = drawDateGenerator.generateDrawDate();
+        LocalDateTime nextDrawDate = drawDateGenerator.generateDrawDate();
         //then
-        assertEquals("Draw date should be at 12:00 PM", 12, drawDate.getHour());
-        assertEquals("Draw date should be in the future", true, drawDate.isAfter(LocalDateTime.now()));
+        assertEquals("Draw date should be in the future", LocalDateTime.of(2024, 12, 28, 12, 0, 0), nextDrawDate);
     }
 
     @Test
-    public void shouldReturnCorrectResultDto() throws InvalidNumbersException {
+    public void shouldReturnCorrectResultDto() throws InvalidWinningNumbersException {
         //given
         Set<Integer> sixNumbers = Set.of(1, 2, 3, 4, 5, 6);
         //when
