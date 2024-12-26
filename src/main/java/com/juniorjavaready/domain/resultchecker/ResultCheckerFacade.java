@@ -54,4 +54,7 @@ public class ResultCheckerFacade {
     }
 
 
+    public ResultDto findByHash(String hash) {
+        return null;
+    }
 }
