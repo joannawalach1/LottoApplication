@@ -3,7 +3,6 @@ package com.juniorjavaready.domain.resultchecker;
 import com.juniorjavaready.domain.numbergenerator.NumberGeneratorFacade;
 import com.juniorjavaready.domain.numberreceiver.NumberReceiverFacade;
 import com.juniorjavaready.domain.resultchecker.dto.Player;
-import com.juniorjavaready.domain.resultchecker.dto.PlayerDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +31,7 @@ public class ResultCheckerFacadeConfiguration {
     }
 
     @Bean
-    ResultCheckerFacade resultCheckerFacade(NumberGeneratorFacade numberGeneratorFacade, NumberReceiverFacade numberReceiverFacade, PlayerRepository playerRepository) {
+    public ResultCheckerFacade resultCheckerFacade(NumberGeneratorFacade numberGeneratorFacade, NumberReceiverFacade numberReceiverFacade, PlayerRepository playerRepository) {
         WinnerRetriever winnerRetriever = new WinnerRetriever();
         return new ResultCheckerFacade(numberGeneratorFacade, numberReceiverFacade, playerRepository, winnerRetriever);
     }

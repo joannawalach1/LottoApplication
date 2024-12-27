@@ -7,5 +7,5 @@ public interface TicketRepository {
     Ticket save (Ticket ticket);
     List<Ticket> findAllTicketsByDrawDate(LocalDateTime date);
     List<Ticket> findAllTickets();
-    List<Ticket> findByHash(String hash);
+    Ticket findByHash(String hash);
 }

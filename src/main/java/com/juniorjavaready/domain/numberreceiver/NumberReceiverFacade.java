@@ -9,8 +9,10 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class NumberReceiverFacade {
@@ -50,6 +52,40 @@ public class NumberReceiverFacade {
         LocalDateTime nextSaturday = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
 
         return nextSaturday.withHour(12).withMinute(0).withSecond(0).withNano(0);
+    }
+
+    public List<TicketDto> retrieveAllTicketsByNextDrawDate() {
+        LocalDateTime nextDrawDate = getNextDrawDate();
+        return retrieveAllTicketsByNextDrawDate(nextDrawDate);
+    }
+
+    public List<TicketDto> retrieveAllTicketsByNextDrawDate(LocalDateTime date) {
+        LocalDateTime nextDrawDate = drawDateGenerator.generateDrawDate();
+        if (date.isAfter(nextDrawDate)) {
+            return Collections.emptyList();
+        }
+        return ticketRepository.findAllTicketsByDrawDate(date)
+                .stream()
+                .filter(ticket -> ticket.drawDate().isEqual(date))
+                .map(ticket -> TicketDto.builder()
+                        .ticketId(ticket.hash())
+                        .numbersFromUser(ticket.numbersFromUser())
+                        .drawDate(ticket.drawDate())
+                        .build())
+                .collect(Collectors.toList());
+    }
+    public LocalDateTime retrieveNextDrawDate() {
+        return drawDateGenerator.generateDrawDate();
+    }
+
+
+    public TicketDto findByHash(String hash) {
+        Ticket ticket = ticketRepository.findByHash(hash);
+        return TicketDto.builder()
+                .ticketId(ticket.hash())
+                .numbersFromUser(ticket.numbersFromUser())
+                .drawDate(ticket.drawDate())
+                .build();
     }
 
 

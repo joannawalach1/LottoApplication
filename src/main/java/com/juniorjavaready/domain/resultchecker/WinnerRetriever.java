@@ -1,12 +1,47 @@
 package com.juniorjavaready.domain.resultchecker;
 
 import com.juniorjavaready.domain.resultchecker.dto.Player;
+import lombok.AllArgsConstructor;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-public class WinnerRetriever {
-    public List<Player> findWinners(List<Ticket> allTicketsByDrawDate, Set<Integer> winningNumbers) {
-        return null;
-    }
+    @AllArgsConstructor
+    class WinnerRetriever {
+        private final static int NUMBERS_WHEN_PLAYER_WON = 3;
+
+        List<Player> retrieveWinners(List<Ticket> allTicketsByDate, Set<Integer> winningNumbers) {
+            return allTicketsByDate.stream()
+                    .map(ticket -> {
+                        Set<Integer> hitNumbers = calculateHits(winningNumbers, ticket);
+                        return buildResult(ticket, hitNumbers, winningNumbers);
+                    })
+                    .toList();
+        }
+
+        private Set<Integer> calculateHits(Set<Integer> winningNumbers, Ticket ticket) {
+            return ticket.numbersFromUser().stream()
+                    .filter(winningNumbers::contains)
+                    .collect(Collectors.toSet());
+        }
+
+        private Player buildResult(Ticket ticket, Set<Integer> hitNumbers, Set<Integer> winningNumbers) {
+            Player.PlayerBuilder builder = Player.builder();
+            if (isWinner(hitNumbers)) {
+                builder.isWinner(true);
+            }
+            return builder
+                    .hash(ticket.hash())
+                    .numbers(ticket.numbersFromUser())
+                    .hitNumbers(hitNumbers)
+                    .drawDate(ticket.drawDate())
+                    .isWinner(isWinner(winningNumbers))
+                    .wonNumbers(winningNumbers)
+                    .build();
+        }
+
+        private boolean isWinner(Set<Integer> hitNumbers) {
+            return hitNumbers.size() >= NUMBERS_WHEN_PLAYER_WON;
+        }
 }

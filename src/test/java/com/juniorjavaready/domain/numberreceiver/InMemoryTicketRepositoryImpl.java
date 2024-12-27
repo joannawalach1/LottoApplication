@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class InMemoryTicketRepositoryImpl implements TicketRepository {
     Map<String, Ticket> ticketsDatabase = new HashMap<>();
@@ -30,11 +31,12 @@ public class InMemoryTicketRepositoryImpl implements TicketRepository {
     }
 
     @Override
-    public List<Ticket> findByHash(String hash) {
+    public Ticket findByHash(String hash) {
         return ticketsDatabase.values()
                 .stream()
                 .filter(ticket -> ticket.hash().equals(hash))
-                .toList();
+                .findFirst()
+                .orElse(null);
     }
 
 }

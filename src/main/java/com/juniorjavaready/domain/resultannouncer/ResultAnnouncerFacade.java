@@ -19,6 +19,7 @@ public static final LocalTime RESULTS_ANNOUNCEMENT_TIME = LocalTime.of(12, 0).pl
 private final ResultCheckerFacade resultCheckerFacade;
 private final ResponseRepository responseRepository;
 private final Clock clock;
+
 public ResultAnnouncerResponseDto checkResult(String hash) {
     if (responseRepository.existsById(hash)) {
         Optional<ResultResponse> resultResponseCached = responseRepository.findById(hash);
