@@ -1,4 +1,4 @@
-package com.juniorjavaready.infrastructure.numberreceiver;
+package com.juniorjavaready.infrastructure.numberreceiver.controller;
 
 import com.juniorjavaready.domain.numberreceiver.dto.InputNumberRequestDto;
 import com.juniorjavaready.domain.numberreceiver.dto.NumberReceiverResponseDto;
